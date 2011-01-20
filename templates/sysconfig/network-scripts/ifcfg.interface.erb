@@ -8,3 +8,6 @@ NETWORK=<%= network %>
 ONBOOT=<%= onboot %>
 IPV6INIT=no
 TYPE=Ethernet
+<% if bridge != 'absent' -%>
+BRIDGE=<%= bridge %>
+<% end -%>

@@ -1,5 +1,5 @@
 define network::interface(
-    $hostname,
+    $hostname = 'absent',
     $ipaddress,
     $netmask,
     $network,
@@ -7,6 +7,7 @@ define network::interface(
     $broadcast,
     $macaddress,
     $routes_file = "",
+    $bridge = 'absent',
     $ensure
 ){
 
