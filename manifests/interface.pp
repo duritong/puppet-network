@@ -44,7 +44,7 @@ define network::interface(
       if $routes_file {
         $subscribes = [
           File["ifcfg-$interface"],
-          File["network"],
+          # File["network"],
           File["route-$interface"]
         ]
 
@@ -59,7 +59,7 @@ define network::interface(
       } else {
         $subscribes = [
           File["ifcfg-$interface"],
-          File["network"]
+          # File["network"]
         ]
       }
 

@@ -7,6 +7,7 @@ define network::bridge(
   require network::network-utils
 
   network::interface{$interface:
+    network => '0.0.0.0',
     netmask => '0.0.0.0',
     ipaddress => '0.0.0.0',
     broadcast => '0.0.0.0',
