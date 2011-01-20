@@ -31,7 +31,7 @@ define network::bridge(
       exec { "/sbin/ifdown $name; /sbin/ifup $name":
         subscribe => File["ifcfg-$name"],
         refreshonly => true,
-        before => Network::Interface
+        before => Network::Interface[ "$interface" ]
       }
     }
     absent: {
