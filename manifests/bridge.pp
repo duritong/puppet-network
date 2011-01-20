@@ -4,6 +4,7 @@ define network::bridge(
   $bridge_ip = $ipaddress,
   $bridge_netmask = $netmask
 ){
+  require network::network-utils
 
   network::interface{$interface:
     network => '0.0.0.0',
