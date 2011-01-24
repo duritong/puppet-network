@@ -3,6 +3,7 @@ define network::tap(
   $bridge,
   $onboot = yes
 ){
+  require network::tunctl
 
   file { "/etc/sysconfig/network-scripts/ifcfg-$name":
     owner => root,
@@ -11,7 +12,7 @@ define network::tap(
     content =>
       template("network/sysconfig/network-scripts/ifcfg.tap.erb"),
     ensure => $ensure,
-    alias => "ifcfg-$name"
+    alias => "ifcfg-$name",
   }
   if $operatingsystem == 'CentOS' and $lsbmajdistrelease == 5 {
     require network::centos::fixifupdown
@@ -21,13 +22,14 @@ define network::tap(
     present: {
       exec { "/sbin/ifdown $name; /sbin/ifup $name":
         subscribe => File["ifcfg-$name"],
-        refreshonly => true
+        refreshonly => true,
+        require => Network::Bridge[$bridge],
       }
     }
     absent: {
       exec { "/sbin/ifdown $name":
-        before => File["ifcfg-$name"],
-        onlyif => "/sbin/ifconfig $name"
+        before => [ File["ifcfg-$name"], Network::Bridge[$bridge] ],
+        onlyif => "/sbin/ifconfig $name",
       }
     }
   }
