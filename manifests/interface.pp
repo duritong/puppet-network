@@ -8,7 +8,7 @@ define network::interface(
     $macaddress,
     $routes_file = "",
     $bridge = 'absent',
-    $ensure
+    $ensure = 'up'
 ){
 
   $interface = $name

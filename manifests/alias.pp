@@ -3,7 +3,7 @@ define network::alias(
     $netmask,
     $network,
     $broadcast,
-    $ensure
+    $ensure => 'up'
 ){
   $interface = $name
 
