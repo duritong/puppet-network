@@ -4,7 +4,7 @@ define network::bridge(
   $bridge_ip = $ipaddress,
   $bridge_netmask = $netmask
 ){
-  require network::bridge-utils
+  require bridge_utils
 
   network::interface{$interface:
     network => '0.0.0.0',
@@ -16,7 +16,7 @@ define network::bridge(
     macaddress => $macaddress,
   }
   
-  file { "/etc/sysconfig/network-scripts/ifcfg-$name":
+  file { "/etc/sysconfig/network-scripts/ifcfg-${name}":
     owner => root,
     group => root,
     mode => 600,
@@ -28,16 +28,16 @@ define network::bridge(
 
   case $ensure {
     present: {
-      exec { "/sbin/ifdown $name; /sbin/ifup $name":
-        subscribe => File["ifcfg-$name"],
+      exec { "/sbin/ifdown ${name}; /sbin/ifup ${name}":
+        subscribe => File["ifcfg-${name}"],
         refreshonly => true,
-        before => Network::Interface["$interface"],
+        before => Network::Interface[$interface],
       }
     }
     absent: {
-      exec { "/sbin/ifdown $name":
-        before => File["ifcfg-$name"],
-        onlyif => "/sbin/ifconfig $name"
+      exec { "/sbin/ifdown ${name}":
+        before => File["ifcfg-${name}"],
+        onlyif => "/sbin/ifconfig ${name}"
       }
     }
   }
