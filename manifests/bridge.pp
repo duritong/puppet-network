@@ -1,7 +1,7 @@
 define network::bridge(
   $ensure = 'present',
   $interface,
-  $bridge_ip = $ipaddress,
+  $bridge_ip = $::ipaddress,
   $bridge_netmask = $netmask
 ){
   require bridge_utils
