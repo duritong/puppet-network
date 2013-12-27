@@ -1,13 +1,13 @@
 module Puppet::Parser::Functions
-  newfunction(:cidr2netmask, :doc => <<-'ENDHEREDOC') do |args|
+  newfunction(:cidr2netmask, :type => :rvalue, :doc => <<-'ENDHEREDOC') do |arg|
     convert cidr notation into a netmask
     ENDHEREDOC
 
-    unless args.length == 1
+    unless arg.length == 1
       raise Puppet::ParseError, ("cidr2netmask(): expects one argument")
     end
     begin
-      cidr = Integer(args[0])
+      cidr = Integer(arg[0])
     rescue
       raise Puppet::ParseError, ("cidr2netmask(): expects integer")
     end
@@ -17,7 +17,7 @@ module Puppet::Parser::Functions
     b = (netmask >> 16) & 255
     c = (netmask >> 8) & 255
     d = netmask & 255
-    "#{a}.#{b}.#{c}.#{d}"
+    return "#{a}.#{b}.#{c}.#{d}"
   end
 end
 
