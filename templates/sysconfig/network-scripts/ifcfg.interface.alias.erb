@@ -1,9 +1,17 @@
-DEVICE=<%= interface %>
+<%
+  main_interface = @interface.split(':',2).first
+  b = @facts['networking']['interfaces'][main_interface]['bindings'][0]
+  netmask = @netmask || b['netmask']
+  network = @network || b['network']
+-%>
+DEVICE=<%= @interface %>
 BOOTPROTO=static
-BROADCAST=<%= broadcast %>
-IPADDR=<%= ipaddress %>
+IPADDR=<%= @ipaddress %>
+<% if @broadcast -%>
+BROADCAST=<%= @broadcast %>
+<% end -%>
 NETMASK=<%= netmask %>
 NETWORK=<%= network %>
-ONBOOT=<%= onboot %>
+ONBOOT=<%= @onboot %>
 IPV6INIT=no
 TYPE=Ethernet

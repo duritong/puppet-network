@@ -1,9 +1,9 @@
 define network::alias(
     $ipaddress,
-    $netmask,
-    $network,
-    $broadcast,
-    $ensure = 'up'
+    $netmask   = undef,
+    $network   = undef,
+    $broadcast = undef,
+    $ensure    = 'up'
 ){
   $interface = $name
 
@@ -12,12 +12,12 @@ define network::alias(
     down => "no"
   }
 
-  file { "/etc/sysconfig/network-scripts/ifcfg-${interface}":
-    owner => root,
-    group => root,
-    mode => 600,
+  file {"/etc/sysconfig/network-scripts/ifcfg-${interface}":
+    owner   => root,
+    group   => root,
+    mode    => '0644',
     content => template("network/sysconfig/network-scripts/ifcfg.interface.alias.erb"),
-    alias => "ifcfg-${interface}"
+    alias   => "ifcfg-${interface}"
   }
 
   case $ensure {
